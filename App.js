@@ -16,9 +16,19 @@ export default function App() {
           <Stack.Screen
             name="MealsCategories"
             component={CategoriesScreen}
+            options={{
+              title: "Meal Categories",
+              headerBackIcon: "arrow-left",
+              headerBackTitle: "Back",
+            }}
           />
           <Stack.Screen
             name="MealsOverview"
+            options={{
+              title: "Meals Overview",
+              headerBackIcon: "arrow-left",
+              headerBackTitle: "Back",
+            }}
             component={MealsOverviewScreen}
           />
         </Stack.Navigator>
