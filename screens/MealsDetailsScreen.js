@@ -5,19 +5,50 @@ import SubTitle from "../components/MealDetail/SubTitle";
 import List from "../components/MealDetail/List";
 import { useLayoutEffect } from "react";
 import IconButton from "../components/IconButton";
+import { FavoritesContext } from "../store/context/favorites-context";
+import { useContext } from "react";
+import { Alert } from "react-native";
 
 export default function MealsDetailsScreen({ navigation, route }) {
   const mealId = route.params.mealId;
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const favoritesContext = useContext(FavoritesContext);
+  const isFavorite = favoritesContext.ids.includes(mealId);
+
+  function changeFavoriteStatusHandler() {
+    if (isFavorite) {
+      favoritesContext.removeFavorite(mealId);
+      // show a prompt to the user to confirm the removal,but no input is needed
+      Alert.alert("Removed from favorites", "Are you sure you want to remove this meal from your favorites?", [
+        { text: "Cancel", style: "cancel" },
+        { text: "Remove", onPress: () => {
+          favoritesContext.removeFavorite(mealId);
+        }, style: "destructive" },
+      ]);
+    } else {
+      favoritesContext.addFavorite(mealId);
+      Alert.alert("Added to favorites");
+    }
+  }
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <IconButton icon="star" onPress={() => {}} color="white" />
+        <IconButton
+          icon={isFavorite ? "star" : "star-outline"}
+          onPress={() => {
+            changeFavoriteStatusHandler();
+          }}
+          color="white"
+        />
       ),
     });
-  }, [navigation, selectedMeal.title]);
+  }, [navigation, selectedMeal.title, favoritesContext]);
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
       <Text style={styles.title}>{selectedMeal.title}</Text>
       <MealDetails

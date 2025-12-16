@@ -7,6 +7,7 @@ import {
   Platform,
 } from "react-native";
 import MealDetails from "./MealDetails";
+import { useNavigation } from "@react-navigation/native";
 /**
  * MealItem component
  * @param {string} title - The title of the meal
@@ -17,7 +18,6 @@ import MealDetails from "./MealDetails";
  * @returns
  */
 export default function MealItem({
-  navigation,
   id,
   title,
   imageUrl,
@@ -25,6 +25,7 @@ export default function MealItem({
   complexity,
   affordability,
 }) {
+  const navigation = useNavigation();
   function onPress() {
     navigation.navigate("MealsDetails", {
       mealId: id,
