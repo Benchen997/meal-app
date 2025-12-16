@@ -3,10 +3,19 @@ import { MEALS } from "../data/dummy-data";
 import MealDetails from "../components/MealDetails";
 import SubTitle from "../components/MealDetail/SubTitle";
 import List from "../components/MealDetail/List";
+import { useLayoutEffect } from "react";
+import IconButton from "../components/IconButton";
 
 export default function MealsDetailsScreen({ navigation, route }) {
   const mealId = route.params.mealId;
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton icon="star" onPress={() => {}} color="white" />
+      ),
+    });
+  }, [navigation, selectedMeal.title]);
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
