@@ -12,10 +12,12 @@ export default function MealsOverviewScreen({ navigation, route }) {
   function renderMealItem(itemData) {
     const item = itemData.item;
     const mealItemProps = {
+      id: item.id,
+      navigation: navigation,
       title: item.title,
       imageUrl: item.imageUrl,
       duration: item.duration,
-      complexity: item.complexity,
+      complexity: item.complexity, 
       affordability: item.affordability,
     };
     return <MealItem {...mealItemProps} />;

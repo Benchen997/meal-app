@@ -6,6 +6,7 @@ import {
   Image,
   Platform,
 } from "react-native";
+import MealDetails from "./MealDetails";
 /**
  * MealItem component
  * @param {string} title - The title of the meal
@@ -16,6 +17,8 @@ import {
  * @returns
  */
 export default function MealItem({
+  navigation,
+  id,
   title,
   imageUrl,
   duration,
@@ -23,7 +26,9 @@ export default function MealItem({
   affordability,
 }) {
   function onPress() {
-    console.log("MealItem pressed");
+    navigation.navigate("MealsDetails", {
+      mealId: id,
+    });
   }
   return (
     <View style={styles.mealItem}>
@@ -37,11 +42,7 @@ export default function MealItem({
             <Image source={{ uri: imageUrl }} style={styles.image} />
             <Text style={styles.title}>{title}</Text>
           </View>
-          <View style={styles.detailsContainer}>
-            <Text style={styles.detailItem}>{duration}m</Text>
-            <Text style={styles.detailItem}>{complexity.toUpperCase()}</Text>
-            <Text style={styles.detailItem}>{affordability.toUpperCase()}</Text>
-          </View>
+          <MealDetails duration={duration} complexity={complexity} affordability={affordability} />
         </View>
       </Pressable>
     </View>
@@ -73,16 +74,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     margin: 8,
-  },
-  detailsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-  },
-  detailItem: {
-    marginHorizontal: 4,
-    fontSize: 12,
   },
   button: {
     flex: 1,
